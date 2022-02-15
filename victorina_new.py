@@ -9,9 +9,10 @@
 
 import sqlite3
 import random
-conn=sqlite3.connect('table111')
-cursor=conn.cursor()
-cursor.execute('''CREATE TABLE IF NOT EXISTS table111(id INTEGER PRIMARY KEY AUTOINCREMENT, Qwestion Text, answer_1 Text,answer_2 Text,answer_3 Text) ''')
+conn = sqlite3.connect('table111')
+cursor = conn.cursor()
+cursor.execute(
+    '''CREATE TABLE IF NOT EXISTS table111(id INTEGER PRIMARY KEY AUTOINCREMENT, Qwestion Text, answer_1 Text,answer_2 Text,answer_3 Text) ''')
 
 # a=random.randint(0,9)
 # b=random.randint(0,9)
@@ -31,8 +32,6 @@ print(oo)
 for i in oo:
     for j in i:
         print(j)
-
-
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -108,11 +107,10 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.radioButton.setText(_translate("MainWindow", "Граблеввая"))
-        self.radioButton_2.setText(_translate("MainWindow", "Савковая"))
-        self.radioButton_3.setText(_translate("MainWindow", "Мотыжная"))
-        k=self.qwes()
-        self.label_1.setText(_translate("MainWindow", k))
+        self.label_1.setText(_translate("MainWindow", "Что такое map?"))
+        self.radioButton.setText(_translate("MainWindow", "карта"))
+        self.radioButton_2.setText(_translate("MainWindow", "функция"))
+        self.radioButton_3.setText(_translate("MainWindow", "переменная"))
         self.labelRes1.setText(_translate("MainWindow", "11111"))
         self.obj_Menu.setTabText(self.obj_Menu.indexOf(self.tab), _translate("MainWindow", "Музыка"))
         self.obj_Menu.setTabText(self.obj_Menu.indexOf(self.tab_4), _translate("MainWindow", "Литература"))
@@ -123,38 +121,36 @@ class Ui_MainWindow(object):
         self.commandLinkButton.setObjectName("commandLinkButton")
 
     def qwes2(self):
-            _translate = QtCore.QCoreApplication.translate
-            k = self.qwes()
-            self.label_1.setText(_translate("MainWindow", k))
-            MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-            self.radioButton.setText(_translate("MainWindow", "Дельфин"))
-            self.radioButton_2.setText(_translate("MainWindow", "черепаха"))
-            self.radioButton_3.setText(_translate("MainWindow", "попугай"))
-            self.labelRes1.setText(_translate("MainWindow", "Ответ"))
+        _translate = QtCore.QCoreApplication.translate
+        ar1 = self.qwes()
+        self.label_1.setText(_translate("MainWindow", ar1[0]))
+        self.radioButton.setText(_translate("MainWindow", ar1[1]))
+        self.radioButton_2.setText(_translate("MainWindow", ar1[2]))
+        self.radioButton_3.setText(_translate("MainWindow", ar1[3]))
 
     def add_function(self):
-            self.radioButton.clicked.connect(self.res_no)
-            self.radioButton_2.clicked.connect(self.res_yes)
-            self.radioButton_3.clicked.connect(self.res_no)
-            self.commandLinkButton.clicked.connect(self.qwes2)
-
-
+        self.radioButton.clicked.connect(self.res_no)
+        self.radioButton_2.clicked.connect(self.res_yes)
+        self.radioButton_3.clicked.connect(self.res_no)
+        self.commandLinkButton.clicked.connect(self.qwes2)
 
     def res_no(self):
-            self.labelRes1.setText("ответ неверный")
+        self.labelRes1.setText("ответ неверный")
 
     def res_yes(self):
-            self.labelRes1.setText("ответ верный")
+        self.labelRes1.setText("ответ верный")
 
     def qwes(self):
+        ar=[]
         cursor.execute('''SELECT id FROM table111''')
         k = cursor.fetchall()
         r = random.choice(k)
-        cursor.execute('''SELECT Qwestion FROM table111 WHERE id=?''', (r))
+        cursor.execute('''SELECT Qwestion,answer_1,answer_2,answer_3 FROM table111 WHERE id=?''', (r))
         oo = cursor.fetchall()
         for i in oo:
             for j in i:
-                return j
+                 ar.append(j)
+        return ar
 
 
 
@@ -167,4 +163,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
