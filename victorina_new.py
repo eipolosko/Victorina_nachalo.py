@@ -149,8 +149,9 @@ class Ui_MainWindow(object):
         oo = cursor.fetchall()
         for i in oo:
             for j in i:
-                 ar.append(j)
+                    ar.append(j)
         return ar
+
 
 
 
