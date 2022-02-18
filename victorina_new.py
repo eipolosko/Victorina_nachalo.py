@@ -122,7 +122,7 @@ class Ui_MainWindow(object):
 
     def qwes2(self):
         _translate = QtCore.QCoreApplication.translate
-        ar1 = self.qwes()
+        ar1 = self.qwes_rand()
         self.label_1.setText(_translate("MainWindow", ar1[0]))
         self.radioButton.setText(_translate("MainWindow", ar1[1]))
         self.radioButton_2.setText(_translate("MainWindow", ar1[2]))
@@ -132,7 +132,7 @@ class Ui_MainWindow(object):
         self.radioButton.clicked.connect(self.res_no)
         self.radioButton_2.clicked.connect(self.res_yes)
         self.radioButton_3.clicked.connect(self.res_no)
-        self.commandLinkButton.clicked.connect(self.qwes2)
+        self.commandLinkButton.clicked.connect(self.next_qwestions)
 
     def res_no(self):
         self.labelRes1.setText("ответ неверный")
@@ -140,7 +140,7 @@ class Ui_MainWindow(object):
     def res_yes(self):
         self.labelRes1.setText("ответ верный")
 
-    def qwes(self):
+    def qwes_rand(self):
         ar=[]
         cursor.execute('''SELECT id FROM table111''')
         k = cursor.fetchall()
@@ -152,7 +152,23 @@ class Ui_MainWindow(object):
                     ar.append(j)
         return ar
 
+    def next_qwestions(self):
+        self.hide_radio_buttons()
+        self.show_radio_buttons()
+        self.qwes2()
 
+    def hide_radio_buttons(self):
+        for btn in [self.radioButton, self.radioButton_2, self.radioButton_3]:
+            btn.setAutoExclusive(False)
+            btn.setChecked(False)
+            btn.repaint()
+            btn.setAutoExclusive(True)
+            btn.hide()
+
+
+    def show_radio_buttons(self):
+        for btn in [self.radioButton, self.radioButton_2, self.radioButton_3]:
+            btn.show()
 
 
 if __name__ == "__main__":
